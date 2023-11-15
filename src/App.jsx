@@ -70,7 +70,8 @@ const App = () => {
         );
         const jsonData = await response.json();
 
-        setData(jsonData.slice(-5));
+        // Reverse the array and then take the first 5 entries
+        setData(jsonData.reverse().slice(0, 5));
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -82,6 +83,7 @@ const App = () => {
   const handleSelectChange = (e) => {
     const selectedValue = e.target.value;
 
+    // Ensure the selected product is a valid option
     if (productOptions.includes(selectedValue)) {
       setSelectedProduct(selectedValue);
     }
@@ -101,7 +103,7 @@ const App = () => {
           </option>
         ))}
       </select>
-      <h3>Last 5 Release Details</h3>
+      <h1>Data Table</h1>
       <table-container>
         <table>
           <thead>

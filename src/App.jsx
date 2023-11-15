@@ -101,7 +101,7 @@ const App = () => {
           </option>
         ))}
       </select>
-      <h1>Data Table</h1>
+      <h3>Last 5 Release Details</h3>
       <table-container>
         <table>
           <thead>

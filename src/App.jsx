@@ -70,7 +70,6 @@ const App = () => {
         );
         const jsonData = await response.json();
 
-        // Reverse the array and then take the first 5 entries
         setData(jsonData.reverse().slice(0, 5));
       } catch (error) {
         console.error("Error fetching data:", error);

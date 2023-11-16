@@ -69,23 +69,43 @@ const App = () => {
           `https://endoflife.date/api/${selectedProduct}.json`
         );
         const jsonData = await response.json();
-
-        setData(jsonData.reverse().slice(0, 5));
+        return jsonData;
       } catch (error) {
         console.error("Error fetching data:", error);
+        return [];
       }
     };
 
-    fetchData();
+    const updateData = async () => {
+      const jsonData = await fetchData();
+      setData(
+        jsonData.sort((a, b) => compareCycles(b.cycle, a.cycle)).slice(0, 5)
+      );
+    };
+
+    updateData();
   }, [selectedProduct]);
 
   const handleSelectChange = (e) => {
     const selectedValue = e.target.value;
 
-    // Ensure the selected product is a valid option
     if (productOptions.includes(selectedValue)) {
       setSelectedProduct(selectedValue);
     }
+  };
+
+  const compareCycles = (cycleA, cycleB) => {
+    const partsA = cycleA.split(".").map(Number);
+    const partsB = cycleB.split(".").map(Number);
+
+    for (let i = 0; i < Math.max(partsA.length, partsB.length); i++) {
+      const diff = (partsA[i] || 0) - (partsB[i] || 0);
+      if (diff !== 0) {
+        return diff;
+      }
+    }
+
+    return 0;
   };
 
   return (
@@ -102,7 +122,7 @@ const App = () => {
           </option>
         ))}
       </select>
-      <h1>Data Table</h1>
+      <h1>Release Details</h1>
       <table-container>
         <table>
           <thead>
